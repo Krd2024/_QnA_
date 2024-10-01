@@ -39,3 +39,56 @@
    ```bash
    git clone <URL репозитория>
 ...
+
+Конфигурация
+Перед запуском приложения необходимо правильно настроить файл settings.py.
+
+**Подключение приложений**
+Добавьте следующие приложения в INSTALLED_APPS:
+INSTALLED_APPS = [
+    "django_redis",  # Поддержка Redis для кэширования
+    "debug_toolbar",  # Инструменты отладки в режиме разработки
+    "rest_framework",  # Django REST Framework для создания API
+]
+
+**Middleware**
+Для отслеживания времени выполнения запросов и отладки в режиме разработки, добавьте следующие промежуточные слои (middleware):
+MIDDLEWARE = [
+    "qna.middleware.RenderTimeMiddleware",  # Показывает время выполнения каждого запроса
+    "debug_toolbar.middleware.DebugToolbarMiddleware",  # Отладочные инструменты
+]
+**Кэширование**
+Для работы с кэшированием в приложении используется Redis. Убедитесь, что Redis установлен и запущен на локальном сервере. Настройка кэша выглядит следующим образом:
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",  # Локальный Redis сервер
+    },
+}
+**Шаблоны**
+Добавьте процессор контекста для работы с уведомлениями в настройку TEMPLATES:
+TEMPLATES = [
+    {
+        # Другие параметры
+        "OPTIONS": {
+            "context_processors": [
+                # Другие процессоры контекста
+                "main.notific_context.context.latest_notific",  # Контекстный процессор для уведомлений
+            ],
+        },
+    },
+]
+**Настройки для отправки писем
+Для отправки уведомлений по электронной почте используется SMTP-сервер Yandex. Введите следующие параметры в settings.py:**
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")  # Получение настроек через переменные окружения
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+
+**Добавьте соответствующие значения в .env файл:**
+EMAIL_HOST_USER=your_email@yandex.ru
+EMAIL_HOST_PASSWORD=your_password # Яндекс ID -> Безопасность -> Пароли приложений -> Почта
+DEFAULT_FROM_EMAIL=your_email@yandex.ru
+
