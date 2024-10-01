@@ -1,0 +1,142 @@
+{% extends 'wrapper/main.html' %}
+{% block content %}
+  <div class="conteiner">
+    {% for key_teg, quest_teg in tegs.items %}
+      {% with dict_length=quest_teg|length %}
+        <div class="box_teg">
+          <div>
+            <h3 id="tag">{{ key_teg }}</h3>
+          </div>
+          <hr />
+          <a class="box_teg_href" href="{% url 'questions_in_tag' key_teg %}"><div>Вопросов {{ dict_length }}</div></a>
+          <hr />
+
+          {% for tag, user in tag_dict.items %}
+            {% if key_teg == tag.name %}
+              {% with user_count=user|length %}
+                {% if request.user in user %}
+                  <div>
+                    <button id="rection_1" onclick="func('{{ tag.id }}')"><span id="counter{{ tag.id }}">Вы подписаны |</span><span id="tag_count{{ tag.id }}">{{ user_count }}</span></button>
+                  </div>
+                {% else %}
+                  <div>
+                    {% comment %} <button id="rection" onclick="func('{{ tag.id }}')"><span id="counter">Подписаться |{{ tag.user_count }}</span></button> {% endcomment %}
+                    <button id="rection_0" onclick="func('{{ tag.id }}')"><span id="counter{{ tag.id }}">Подписаться</span>|<span id="tag_count{{ tag.id }}">{{ user_count }}</span></button>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
+
+  <style>
+    #tag {
+      margin-bottom: 0.5vw;
+      font-size: clamp(2vw, 1vw, 2vw);
+    }
+    .conteiner {
+      display: grid;
+    
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 5px;
+    
+      padding: 0.1em;
+    
+      justify-content: space-evenly;
+    }
+    @media (max-width: 600px) {
+      .box_teg {
+        padding: 10px;
+    
+        margin-top: 0.5vw;
+    
+        padding: 1vw;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        min-width: 10vw;
+        min-height: 10vw;
+        text-align: center;
+        font-size: 30px;
+      }
+      .box_teg_href {
+        font-size: 4vw;
+        color: #2d72d9;
+      }
+    }
+    
+    .box_teg {
+      margin-top: 0.5vw;
+    
+      padding: 1vw;
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      min-width: 8vw;
+    }
+    
+    .box_teg_href {
+      font-size: 2vw;
+      color: #2d72d9;
+    }
+    
+    #rection_0 {
+      margin: 1em 0 2em 0;
+      padding: 0 5px 0 5px;
+      background-color: #65c178;
+      color: #fff;
+      border-color: transparent;
+      border-radius: 5px;
+      font-size: 1.3vw;
+    }
+    #rection_0:hover {
+      background-color: #45a049;
+    }
+    #rection_1 {
+      margin: 1em 0 2em 0;
+      padding: 0 5px 0 5px;
+      background-color: #65c178;
+      color: #fff;
+      border-color: transparent;
+      border-radius: 5px;
+      font-size: 1.3vw;
+    }
+    #rection_1:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <script>
+    async function func(tagId) {
+      try {
+        let response = await fetch(`/tegs/add/?tag_id=${tagId}`)
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+    
+        let data = await response.json()
+    
+        const tagCountElement = document.getElementById(`tag_count${tagId}`)
+        let currentCount = parseInt(tagCountElement.innerText)
+        let idCoun = document.getElementById('counter' + tagId)
+    
+        if (tagCountElement) {
+          console.log('Element found:', tagCountElement)
+    
+          tagCountElement.innerHTML = currentCount + data.answer
+    
+          if (data.answer === -1) {
+            idCoun.innerHTML = 'Подписаться' // Пример значения для обновления
+          } else if (data.answer === 1) {
+            idCoun.innerHTML = 'Вы подписаны'
+          }
+        } else {
+          console.error(`Element with id 'tag_count${tagId}' not found`)
+        }
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
+  </script>
+{% endblock %}

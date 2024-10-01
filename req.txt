@@ -1,0 +1,9 @@
+Django
+pillow
+requests
+python-decouple
+beautifulsoup4 
+lxml
+django-redis-cache
+aiosmtplib
+asyncio

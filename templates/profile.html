@@ -1,0 +1,148 @@
+{% extends 'wrapper/main.html' %}
+{% block content %}
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <div class="name">
+    {% if username.image_url != '' %}
+      <div>
+        <img src="/static/profile/picture/{{ username.image_url }}/file-1.jpg" alt="" width="100" id="img1" />
+      </div>
+    {% else %}
+      <div class="name">
+        <img src="{% static 'img/head.png' %}" alt="Заголовок" width="80" height="80" id="img" />
+      </div>
+    {% endif %}
+
+    <div class="info_user">
+      <div class="info_user">{{ username }} ({{ username.first_name }})</div>
+      {% if username.profession != '' %}
+        <div class="info_user">Специальность: {{ username.profession }}</div>
+      {% endif %}
+    </div>
+  </div>
+  <div>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="info">
+      <div>
+        <button id="button1" onclick="fun('questions')"><h4>Вопросы<p>{{ user_question }}</p></h4></button>
+      </div>
+      <div>
+        <a href="{% url 'rating' %}"><button id="button3" onclick=""><h4><p>Вклад</p>{{ username.rating }}</h4></button></a>
+      </div>
+      <div>
+        <button id="button4" onclick=""><h4><p>⚠️</p></h4></button>
+      </div>
+
+      <div>
+        <button id="button2" onclick="fun('answers')"><h4>Ответы<p>{{ answers }}</p></h4></button>
+      </div>
+    </div>
+
+    <div>
+      {% for quest in user_quest %}
+        <div>{{ quest.text }}</div>
+      {% endfor %}
+    </div>
+
+    <div id="answers_div"></div>
+  </div>
+  {% if user == username %}
+    <div class="edit">
+      <a class="edit" href="{% url 'edit_profile' username %}"><button id="button_add">Добавить инфо</button></a>
+    </div>
+  {% endif %}
+
+  <script>
+    const butt1 = document.getElementById('button1')
+    const butt2 = document.getElementById('button2')
+    
+    const username = '{{ username }}'
+    const ans = document.getElementById('answers_div')
+    
+    async function fun(x) {
+      let data = await fetch(`/user/${username}/?q=${x}`)
+      data = await data.text()
+      ans.innerHTML = data
+    }
+  </script>
+
+  <style>
+    .info_user {
+      width: 30%%;
+      text-align: center;
+    }
+    #button_ad {
+      padding: 5px;
+      height: 3vw;
+    }
+    .edit {
+      height: 1vw;
+    
+      margin-top: 50px;
+      text-align: center;
+    }
+    h4 {
+      font-size: clamp(0.5rem, 1rem, 1vw);
+    }
+    @media (max-width: 600px) {
+      #button1,
+      #button2,
+      #button3,
+      #button4 {
+        border-color: darkcyan;
+        margin: 20px 0 10px 0;
+        border-radius: 5px;
+        width: 12vw;
+        height: 7vw;
+      }
+    }
+    @media (min-width: 901px) {
+      #button1,
+      #button2,
+      #button3,
+      #button4 {
+        border-color: darkcyan;
+        margin: 20px 0 10px 0;
+        border-radius: 5px;
+        width: 5vw;
+        height: 3vw;
+      }
+    }
+    #answ {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #quest {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .info {
+      display: flex;
+      justify-content: space-around;
+      font-size: 25px;
+    }
+    #img,
+    #img1 {
+      border-radius: 50px;
+    }
+    .name {
+      display: flex;
+      font-size: 25px;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,40 @@
+<div class="user-widget">
+  {% if user.image_url %}
+    <div>
+      <img class="user-widget-img" src="/static/profile/picture/{{ user.image_url }}/file-1.jpg" alt="фото" width="36" />
+    </div>
+  {% else %}
+    <div>
+      <img class="user-widget-img" src="/static/img/head.png" alt="фото" width="36" />
+    </div>
+  {% endif %}
+  <div class="user-widget-info">
+    <p class="user-widget-info-name">
+      <strong>
+        <span>{{ name }}</span>
+        <span>{{ user.first_name }}</span>
+      </strong>
+      <a class="href_widget" href="{% url 'user_profile' user %}">@{{ user }}</a>
+    </p>
+    {% if user.profession != '' %}
+      <p class="user-widget-info-title">{{ user.profession }}</p>
+    {% endif %}
+  </div>
+</div>
+<style>
+  .user-widget-info,
+  .href_widget {
+    font-size: clamp(1vw, 1vw, 1.5vw);
+  }
+  .user-widget-img {
+    border-radius: 50px;
+    width: clamp(5vw, 2vw, 3.5vw);
+  }
+  .user-widget {
+    width: clamp(1.5vw, 1.5vw, 2.5vw);
+    margin: 1vw;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+  }
+</style>

@@ -1,0 +1,201 @@
+{% extends 'wrapper/main.html' %}
+
+{% load static %}
+
+{% block content %}
+  <body>
+    <div class="page_box">
+      {{ quest.autor }}
+      {% include 'shared/user_witget.html' with user=quest.autor %}
+
+      <div class="question-container">
+        <hr class="hr" />
+        <div>
+          <p class="teg">{{ quest.tegs }}</p>
+        </div>
+        <div class="title">{{ quest.title }}</div>
+        <div class="question">{{ quest.text }}</div>
+        <div class="create">Создано {{ quest.created_at|timesince }} назад</div>
+        <hr class="hr" />
+        {% if request.user == quest.autor %}
+          <div>
+            <a href="{% url 'question_delete' quest.id %}"><button class="btn">delete</button></a>
+            <a href="{% url 'question_update' quest.id %}"><button class="btn">edit</button></a>
+            <hr />
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="solution-container">
+        <div class="text-1">Ответы на вопрос ({{ answers|length }})</div>
+        <hr id="black" />
+
+        {% for answer in answers %}
+          {% include 'shared/user_witget.html' with user=answer.autor %}
+
+          <div id="text">
+            <div>{{ answer.text }}</div>
+            <button id="rection" onclick="increaseCounter({{ answer.id }})">
+              <div>
+                <span id="counter-{{ answer.id }}">Не плохо | {{ answer.reaction_count }}</span>
+              </div>
+            </button>
+            {% if request.user == quest.autor %}
+              {% if answer.correct == True %}
+                <div class="correct">
+                  <span>Решение | ✓</span>
+                </div>
+              {% else %}
+                <button class="correct" onclick="correct({{ answer.id }})">
+                  <div>
+                    <span id="{{ answer.id }}">Отметить как правильное</span>
+                  </div>
+                </button>
+              {% endif %}
+            {% else %}
+              {% if answer.correct == True %}
+                <div class="correct">
+                  <span>Решение | 🥇</span>
+                </div>
+              {% else %}
+                <div class="correct">
+                  <span></span>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+
+          <hr />
+        {% endfor %}
+      </div>
+      {% if request.user == quest.autor %}
+        <div></div>
+      {% else %}
+        <form action="{% url 'question' quest.id %}" method="post" id="form">
+          {% csrf_token %}
+          <label for="message">Ответить на вопрос:</label><br />
+          <textarea id="message" name="message" rows="8" cols="80">{{ answer }}</textarea><br />
+          <button type="submit">Отправить</button>
+        </form>
+      {% endif %}
+    </div>
+  </body>
+  <script>
+    async function increaseCounter(answerId) {
+      const response = await fetch(`/increase_counter/${answerId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({})
+      })
+    
+      const data = await response.json()
+      console.log(data.answer)
+    
+      if (data.success) {
+        document.getElementById(`counter-${answerId}`).innerText = 'Не плохо | ' + data.answer
+      } else {
+        console.error('Failed to increase counter')
+      }
+    }
+    
+    async function correct(answerId) {
+      const response = await fetch(`/correct/${answerId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({})
+      })
+    
+      const data = await response.json()
+      console.log(data.a)
+    
+      if (data.success) {
+        document.getElementById(`${answerId}`).innerText = 'Решение | ✓'
+      } else {
+        console.error('Failed to increase counter')
+      }
+    }
+  </script>
+  <style>
+    #black {
+      height: 4px;
+      background-color: gray;
+    }
+    a {
+      text-decoration: none;
+    }
+    .correct {
+      display: inline-block;
+      margin-left: 110px;
+    }
+    
+    #rection {
+      margin: 10px 0 20px 0;
+      padding: 0 5px 0 5px;
+      background-color: #65c178;
+      color: #fff;
+      border-color: transparent;
+      border-radius: 5px;
+      line-height: 30px;
+    }
+    #text {
+      margin-left: 47px;
+    }
+    #user-witget {
+      margin: 5px 0 10px 0;
+    }
+    .page_box {
+      background-color: white;
+      width: 65vw;
+      padding: 20px;
+      margin: 0px;
+    
+      border: 0;
+      outline: 0;
+      font-size: 100%;
+      vertical-align: baseline;
+    
+      box-sizing: border-box;
+    }
+    .question-container {
+      padding: 0 0 25px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      font-size: 100%;
+      vertical-align: baseline;
+    }
+    .text-1 {
+      margin: 20px;
+    }
+    
+    .btn {
+      border-color: #a5acb3;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .title {
+      font-size: 23px;
+      line-height: 26px;
+      font-weight: 700;
+    }
+    .question {
+      font-size: 18px;
+      line-height: 1.5em;
+      overflow: hidden;
+    }
+    .create {
+      margin: 4px 0 3px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #9099a3;
+      line-height: 1em;
+    }
+  </style>
+{% endblock %}

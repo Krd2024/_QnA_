@@ -1,0 +1,139 @@
+<style>
+  .user_form {
+    border-radius: 3px;
+    color: ;
+    padding: 0.5em;
+    font-size: 1em;
+    text-align: center;
+  }
+  
+  #exit {
+    margin: 0.3em;
+    color: beige;
+    padding: 0.2em;
+    width: 2vw;
+    height: 0.5vw;
+  }
+  #name {
+    margin-left: 0.3em;
+    padding: 0.2em;
+    width: 2vw;
+    height: 0.5vw;
+    color: beige;
+  }
+  .a {
+    color: beige;
+    padding: 0.5em;
+    font-size: 1em;
+  }
+  .loginForm {
+    margin: 0.5em;
+    width: 2vh;
+    text-align: left;
+  }
+  menu {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #4f5a6e;
+  }
+  .pars {
+    font-size: 30px;
+    margin: 0.2em;
+  }
+  .dop {
+    font-size: 1em;
+    padding: 0.1em;
+    text-align: center;
+  }
+</style>
+
+<menu>
+  <ul>
+    <li>
+      <form class="loginForm" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="bright_sunshine" />
+        <input type="hidden" name="password" value="1" />
+        <button type="submit" class="user_form">bright_sunshine</button>
+      </form>
+    </li>
+
+    <li>
+      <form class="loginForm" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="Den" />
+        <input type="hidden" name="password" value="1" />
+        <button type="submit" class="user_form">Den</button>
+      </form>
+    </li>
+    <li>
+      <form class="loginForm" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="peaceful_ocean" />
+        <input type="hidden" name="password" value="1" />
+        <button type="submit" class="user_form">peaceful_ocean</button>
+      </form>
+    </li>
+    <li>
+      <a href="/switch_user/4"></a>
+    </li>
+  </ul>
+
+  <a class="a" href="{% url 'all_users' %}"><span id="users">Пользователи</span></a>
+  <a class="a" href="{% url 'tegs' %}"><span id="users">Все теги</span></a>
+
+  {% comment %} <div>
+    {% for notific in latest_notific %}
+      {{ notific }}
+    {% endfor %}
+  </div> {% endcomment %}
+  <div class="navbar_is_auth">
+    {% if request.user.is_authenticated %}
+      <div class="box_auth">
+        {% if latest_notific %}
+          <div class="notific">
+            <a href="{% url 'get_notification' read='False' %}">⚠️<p>Уведомление</p></a>
+          </div>
+        {% endif %}
+      </div>
+      {% comment %} <a href="{% url 'get_notification' read='False' %}">{{ notific }}</a> {% endcomment %}
+      {% comment %} {{ notific_all }} {% endcomment %}
+
+      <a href="{% url 'user_profile' request.user.username %}"><span class="a">{{ request.user.username }}</span></a>
+      <hr />
+      <a class="a" href="{% url 'logout' %}"><span>Выход</span></a>
+    {% else %}
+      <a class="a" href="/signup/"><span>Регистрация</span></a>
+
+      <a class="a" href="/login_in/"><span>Вход</span></a>
+
+      <hr />
+    {% endif %}
+    <hr />
+  </div>
+
+  <a class="pars" href="{% url 'pars_up' 'samoe' %}"><button><p class="dop">Самое интересное</p></button></a>
+  <a class="pars" href="{% url 'pars_up' 'it' %}"><button><p class="dop">Новости из мира IT</p></button></a>
+  {% comment %} <a class="pars" href="{% url 'pars_up' 'yandex' %}"><button><p class="dop">Яндекс маркет цены</p><</button></a> {% endcomment %}
+  {% comment %} <div>
+    {% block notific_all %}
+
+    {% endblock %}
+  </div> {% endcomment %}
+</menu>
+<style>
+  .navbar_is_auth {
+    text-align: center;
+  }
+  .notific p {
+    color: red;
+  }
+  .notific {
+    display: flex;
+    margin: 15px;
+  
+    text-align: center;
+  }
+</style>
