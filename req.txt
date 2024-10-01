@@ -7,3 +7,4 @@ lxml
 django-redis-cache
 aiosmtplib
 asyncio
+django-debug-toolbar 
