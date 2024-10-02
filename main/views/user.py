@@ -111,6 +111,8 @@ def user_profile(request, *args, **kwargs):
 
 
 def edit_profile(request, **kwargs):
+    """Дополнение информации профиля"""
+
     if request.method == "POST":
         form = ProfileEditForm(request.POST)
         if form.is_valid():
@@ -141,6 +143,9 @@ def edit_profile(request, **kwargs):
     return render(request, "editProfile.html", {"form": form})
 
 
+from django.contrib import messages
+
+
 def answer_update_delete(request, **kwargs):
     """Редактировать,удалить ответ"""
 
@@ -148,21 +153,22 @@ def answer_update_delete(request, **kwargs):
         data = kwargs.get("choice")
         answer_id = kwargs.get("answer_id")
 
+        print(data, answer_id, "< -------------------")
+
         if data == "ans_update":
             answer_obj = Answer.objects.get(id=answer_id)
+            if answer_obj.question.autor == answer_obj.autor:
+                messages.success(request, "Сам спросил - сам ответил!")
+
             context = {"quest": answer_obj.question, "answer": answer_obj.text}
             return render(request, "questions.html", context)
 
         elif data == "ans_delete":
 
             answer_obj = Answer.objects.get(id=answer_id)
-            print(answer_obj.autor)
-            print(answer_obj.id)
+
             try:
                 obj = Notification.objects.filter(
-                    # sender=request.user,
-                    # sender=answer_obj.autor,
-                    # notification_type="answer",
                     related_object_id=answer_obj.id,
                 ).delete()
 

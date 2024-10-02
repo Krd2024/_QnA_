@@ -24,7 +24,7 @@ urlpatterns = [
     #     "test/",
     #     rrr.test2,
     # ),
-    path("get/employees/", get_employ, name="employees"),
+    # path("get/employees/", get_employ, name="employees"),
     #
     path("", views_1.index, name="index"),
     path("page/<int:num>", views_1.index, name="index"),

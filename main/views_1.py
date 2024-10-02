@@ -516,7 +516,7 @@ def type_(search):
 
 # @type_
 def search(request, **kwargs):
-    """Поиск по заголовку и тегу"""
+    """Поиск по слову в вопросе"""
 
     print(kwargs["search"])
 
@@ -717,58 +717,6 @@ def index(request, **kwargs):
 
     return render(request, "main/index_main.html", context)
 
-    # def user_profile(request, *args, **kwargs):
-    print("-------1--------------")
-    user = kwargs["username"]
-    objects_user = User.objects.get(username=user)
-
-    if request.GET.get("q") == "questions":
-        # print(12345)
-        user_question = Question.objects.filter(autor=objects_user)
-        context = {
-            "user_question": user_question,
-        }
-
-        return render(request, "user_questions.html", context)
-
-    if request.GET.get("q") == "answers":
-
-        try:
-            answers = Answer.objects.filter(autor=objects_user)
-            lst = []
-            for answer in answers:
-                lst.append(answer.question_id)
-
-            question = Question.objects.filter(id__in=lst)
-            context = {"question": question, "user": user}
-            # ---------------------------------------------------------------------
-            if len(answers) == 0:
-                return HttpResponse("Нет ответ")
-            return render(request, "user___answers.html", context)
-
-        except Exception as e:
-            print(e, "<<< ----------- e --- def user_profile()")
-            return render(render, "user__answers.html", {"out": "Нет ответ"})
-    # ----------------------------------------------------------------
-    objects_user = User.objects.get(username=user)
-    user_question = Question.objects.filter(autor=objects_user)
-    answers = Answer.objects.filter(autor=objects_user)
-
-    correct_answer = Answer.objects.filter(autor=objects_user, correct=True).count()
-
-    # ----------------------------------------------------------------
-    answers_1 = (
-        Answer.objects.all().values("question_id").annotate(total=Count("question_id"))
-    )
-    print(answers_1, "answers_1")
-    context = {
-        "user_question": len(user_question),
-        "username": objects_user,
-        "answers": len(answers),
-    }
-
-    return render(request, "profile.html", context)
-    # =================================================================
 
 
 # =================================================================

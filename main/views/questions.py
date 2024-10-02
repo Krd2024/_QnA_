@@ -7,7 +7,7 @@ from main.forms import ProfileEditForm, QForm, UserRegisterForm
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-
+from django.contrib import messages
 
 import time
 from datetime import datetime
@@ -94,17 +94,13 @@ def question(request, **kwargs):
 
             autor_obj = User.objects.get(username=request.user)
             question_obj = Question.objects.get(id=kwargs["question_id"])
+            # Если уведомление есть,удалить его
             try:
                 proverka_na_dublic = Answer.objects.filter(
                     autor=autor_obj, question=question_obj
                 )
                 proverka_na_dublic.delete()
-                print(
-                    proverka_na_dublic,
-                    " --- ",
-                    len(proverka_na_dublic),
-                    "<<<< ------------ proverka_na_dublic",
-                )
+
             except Exception as e:
                 print(e, "<<<< ======== E")
 
@@ -137,7 +133,8 @@ def question(request, **kwargs):
         return render(request, "questions.html", context)
     except Exception as e:
         print(e, "<<< (e) def question(request, **kwargs)")
-        # return HttpResponse("err")
+
+        messages.success(request, "Объект не доступен")
         return redirect("index")
 
 
