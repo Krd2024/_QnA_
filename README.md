@@ -36,6 +36,7 @@
 1.Склонируйте репозиторий:
    ```bash
    git clone https://github.com/Krd2024/_QnA_.git
+```
 2.Создание виртуального окружения
 ```bash
    python -m venv venv
