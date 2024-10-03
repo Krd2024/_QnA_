@@ -51,7 +51,7 @@ REDIS_DB = 0
 
 2.Создание виртуального окружения
 ```bash
-   python -m venv venv
+   python -m venv .venv
 ```
 3.Активация виртуального окружения
 ```bash
