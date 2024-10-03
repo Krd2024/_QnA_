@@ -62,4 +62,8 @@ python manage.py migrate
 EMAIL_HOST_USER=your_email@yandex.ru
 EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
 DEFAULT_FROM_EMAIL=your_email@yandex.ru
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 0
 ```
