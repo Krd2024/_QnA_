@@ -37,7 +37,7 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone <URL репозитория>
+   git clone https://github.com/Krd2024/_QnA_.git
 ...
 
 Конфигурация
