@@ -37,6 +37,11 @@
    ```bash
    git clone https://github.com/Krd2024/_QnA_.git
 ```
+**Сгенерировать SECRET_KEY в Django**
+```python
+django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
+```
 **Сосдать файл .env**
 Добавьте соответствующие значения в .env файл:
 ```python
@@ -47,6 +52,8 @@ DEFAULT_FROM_EMAIL=your_email@yandex.ru
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 REDIS_DB = 0
+SECRET_KEY = см. выше
+
 ```
 
 2.Создание виртуального окружения
