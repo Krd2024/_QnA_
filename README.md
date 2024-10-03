@@ -31,6 +31,12 @@
 
 # Технические детали:
 
+## Установка
+
+1.Склонируйте репозиторий:
+   ```bash
+   git clone https://github.com/Krd2024/_QnA_.git
+```
 **Сосдать файл .env**
 Добавьте соответствующие значения в .env файл:
 ```python
@@ -42,12 +48,7 @@ REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 REDIS_DB = 0
 ```
-## Установка
 
-1.Склонируйте репозиторий:
-   ```bash
-   git clone https://github.com/Krd2024/_QnA_.git
-```
 2.Создание виртуального окружения
 ```bash
    python -m venv venv
