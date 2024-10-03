@@ -4,12 +4,9 @@ from django.forms import JSONField
 from django.utils import timezone
 from PIL import Image as PilImage
 from django.db import models
-import datetime
 import uuid
 
 from .settings import CACH_UPDATE_MIN, CACH_UPDATE_TAGS_MIN
-
-
 
 
 class Subscription(models.Model):

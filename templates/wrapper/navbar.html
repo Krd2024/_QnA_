@@ -77,11 +77,6 @@
 
   <a class="a" href="{% url 'tegs' %}"><span id="users">Все теги</span></a>
 
-  {% comment %} <div>
-    {% for notific in latest_notific %}
-      {{ notific }}
-    {% endfor %}
-  </div> {% endcomment %}
   <div class="navbar_is_auth">
     {% if request.user.is_authenticated %}
       <div class="box_auth">
@@ -91,8 +86,6 @@
           </div>
         {% endif %}
       </div>
-      {% comment %} <a href="{% url 'get_notification' read='False' %}">{{ notific }}</a> {% endcomment %}
-      {% comment %} {{ notific_all }} {% endcomment %}
 
       <a href="{% url 'user_profile' request.user.username %}"><span class="a">{{ request.user.username }}</span></a>
       <hr />

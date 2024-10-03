@@ -3,8 +3,7 @@ from django.forms import ModelForm
 from PIL import Image as PilImage
 from django import forms
 
-from .models import Image, Teg
-from .models import Question, User
+from .models import Question, User, Image
 
 
 # class ProfileEditForm(UserCreationForm):
@@ -15,9 +14,6 @@ class ProfileEditForm(forms.ModelForm):
 
 
 class QForm(ModelForm):
-    # teg = forms.ModelChoiceField(
-    #     queryset=Teg.objects.all(), required=True, label="Выбор тега"
-    # )
 
     class Meta:
         model = Question
@@ -28,7 +24,6 @@ class QForm(ModelForm):
             "title",
             "text",
         )
-        # fields = "__all__"
         widgets = {
             "id": forms.HiddenInput(),
             "autor": forms.HiddenInput(),
@@ -55,10 +50,6 @@ class QuestionForm(forms.Form):
     question = forms.CharField(
         widget=forms.Textarea(attrs={"rows": 4, "cols": 40}), label="Your Question"
     )
-
-
-from django import forms
-from .models import Image
 
 
 class ImageForm(forms.ModelForm):
