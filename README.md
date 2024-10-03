@@ -38,6 +38,13 @@
 1. Склонируйте репозиторий:
    ```bash
    git clone https://github.com/Krd2024/_QnA_.git
+2. Создание виртуального окружения
+   python -m venv venv
+3.Активация виртуального окружения
+   venv\Scripts\activate
+4. Установка зависимостей проекта
+   pip install -r requirements.txt
+
 ...
 
 Конфигурация
