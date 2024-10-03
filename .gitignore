@@ -153,12 +153,13 @@ cython_debug/
 static/img/
 db.sqlite3
 staticfiles
-main/apps.py
+# main/apps.py
 
 
 decor/decorator.py
 redis_/db_redis.py
 static/profile/picture/9e90a446-2278-4d3a-a122-9c27be6c3fd2/file-1.jpg
 static/profile/picture/d059a855-a78e-48b7-a176-59859f5c08f6/file-1.jpg
-settings.py
-qna/settings.py
+# settings.py
+# qna/settings.py
+settings_copy.py

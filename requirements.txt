@@ -4,7 +4,9 @@ requests
 python-decouple
 beautifulsoup4 
 lxml
+django_redis
 django-redis-cache
 aiosmtplib
 asyncio
-django-debug-toolbar 
+django-debug-toolbar
+djangorestframework 
