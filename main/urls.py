@@ -1,16 +1,15 @@
-from django import views
-from django.urls import path
-
-from main.auth import auth_user_view
 from main.auth.auth_not_email import login_view, logoutPage, register_view
-import qna
-from . import views_1
-from .auth import auth_user_view
-from main import views_1
-from main.views import questions, user
-from main.views.get_employees_views import get_employ
-from main.image import image
 from django.conf.urls import handler404, handler400
+from django.urls import path
+from django import views
+
+from main.views.get_employees_views import get_employ
+from main.views import questions, user
+from main.auth import auth_user_view
+from .auth import auth_user_view
+from main.image import image
+from main import views_1
+import qna
 
 
 # from main.user_profile import user_profile_up

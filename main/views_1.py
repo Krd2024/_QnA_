@@ -1,11 +1,22 @@
-from django.db.models import Count, OuterRef, Subquery
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import math
-import random
+from django.db.models import Count, OuterRef, Subquery
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from main.serializator import ItemSerializer
+from rest_framework import generics
+from django.contrib import messages
+from django.db.models import Count
+from bs4 import BeautifulSoup
+from datetime import datetime
+import requests
+import shutil
+import random
+import math
+import time
+import os
 
+from .forms import ProfileEditForm, QForm, UserRegisterForm
+import main.settings
 from main.models import (
     Notification,
     Question,
@@ -16,30 +27,9 @@ from main.models import (
     User,
     Image,
 )
-from main.serializator import ItemSerializer
-from .forms import ProfileEditForm, QForm, UserRegisterForm
-from django.db.models import Count
-from django.shortcuts import render
 
-
-import os
-import shutil
-
-import time
-from datetime import datetime
-import main.settings
-from django.contrib import messages
 
 # =================================================================
-
-from django.shortcuts import render, redirect
-
-from bs4 import BeautifulSoup
-import requests
-
-
-from rest_framework import generics
-from .models import Question
 
 
 class ItemList(generics.ListCreateAPIView):
@@ -107,13 +97,6 @@ def questions_in_tag(request, **kwargs):
         # all_question = Question.tegs_set.filter(tags=tag_obj)
         all_question = Question.objects.select_related("tegs").filter(tegs=tag_obj)
 
-        # all_question = Question.objects.filter(
-        #     tegs=Teg.objects.filter(name=kwargs.get("tags")).first()
-        # )
-        # ----------------------------------------------------------------
-
-        #  ----------------------------------------------------------------
-        # all_question = Question.objects.all().filter(tegs=kwargs.get("tegs"))
         num_pages = int(
             math.ceil(len(all_question) / main.settings.LIMIT_OF_USERS_ON_PAGE)
         )
@@ -229,7 +212,7 @@ def pars_up(request, **kwargs):
                 if link:
                     text = " ".join(link.text.split()).strip()
                     links[text] = link["href"]
-            return render(request, "wrapper/right_pars.html", {"links": links})
+            # return render(request, "wrapper/right_pars.html", {"links": links})
 
         elif kwargs.get("value") == "it":
             url = "http://habr.com/ru/news/"
@@ -248,43 +231,7 @@ def pars_up(request, **kwargs):
                 link = f"HTTPS://habr.com{url}"
                 text = h2.text
                 links[text] = link
-            return render(request, "wrapper/right_pars.html", {"links": links})
-
-        elif kwargs.get("value") == "yandex":
-            url_1 = "https://market.yandex.ru/"
-
-            page = requests.get(url_1)
-            if page.status_code != 200:
-                return False
-
-            soup = BeautifulSoup(page.text, "html.parser")
-            allNews = soup.findAll("div", class_="_2rw4E _14Y_C")
-            links1 = {}
-            for news_item in allNews:
-
-                link = news_item.find(
-                    "h3", class_="G_TNq _2SUA6 _33utW IFARr _2a1rW _1A5yJ"
-                )
-                link2 = news_item.find("span", class_="_3gYEe")
-                #   ==========================================================
-                link3 = news_item.find("img", class_="_2Tepm")
-                photograph = (
-                    link3["src"] if link3["src"].startswith("https://avatars") else ""
-                )
-                #  ============================================================
-
-                if link:
-                    text1 = " ".join(link.text.split()).strip()
-                    print(text1)
-                    print("--------------------------------")
-                    # links[text] = link["href"]
-                if link2:
-                    text2 = " ".join(link2.text.split()).strip()
-                    print(text2)
-                    print("================================")
-                links1[text1] = text2
-
-            return render(request, "wrapper/right_pars.html", {"links1": links1})
+        return render(request, "wrapper/right_pars.html", {"links": links})
 
     except Exception as e:
         print(e)
@@ -297,6 +244,7 @@ def pars_up(request, **kwargs):
 
 
 def edit_profile(request, **kwargs):
+    """Обновить/добавить в ЛК"""
 
     if request.method == "POST":
         form = ProfileEditForm(request.POST)
@@ -361,7 +309,6 @@ def all_users(request, **kwargs):
             .values("count")
         )
 
-        # Выполните аннотированный запрос
         users_obj_count = User.objects.annotate(
             question_count=Subquery(question_count_subquery),
             answer_count=Subquery(answer_count_subquery),
@@ -716,7 +663,6 @@ def index(request, **kwargs):
     # print(page, page_range, sorted_users)
 
     return render(request, "main/index_main.html", context)
-
 
 
 # =================================================================

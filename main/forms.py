@@ -1,9 +1,9 @@
-from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from django import forms
-from .models import Image, Teg
+from django.forms import ModelForm
 from PIL import Image as PilImage
+from django import forms
 
+from .models import Image, Teg
 from .models import Question, User
 
 

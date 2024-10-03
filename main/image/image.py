@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
-
-from main.models import User, Image
-
 from django.shortcuts import render
-
-from decouple import config
 from django.contrib import messages
-from ..forms import ImageForm
-
-import os
+from decouple import config
 import shutil
+import os
+
+from my_email.send_mail import send_mail_
+from main.models import User, Image
+from ..forms import ImageForm
 
 EMAIL = config("EMAIL_HOST_USER")
 
@@ -52,11 +50,6 @@ def image_upload_view(request):
                 return render(request, "load_img.html", {"form": form})
             # =================================================================
             # import asyncio
-            from my_email.send_mail import send_mail_
-
-            message = form.cleaned_data["image"]
-            # =================================================================
-            send_mail_("Фото", EMAIL, message)
 
             # Получить имя папки для удаления перед созданием новой (uuid)
             user_obj = User.objects.filter(username=request.user.username).first()
@@ -71,6 +64,11 @@ def image_upload_view(request):
             delete_folder(folder_path)
 
             save_image_url_user(img_obj.image)
+            try:
+                message = form.cleaned_data["image"]
+                send_mail_("Фото", EMAIL, message)
+            except Exception:
+                return redirect("user_profile", request.user.username)
             #
         return redirect("user_profile", request.user.username)
     else:
