@@ -35,10 +35,10 @@
   
 ## Установка
 
-1. Склонируйте репозиторий:
+1.Склонируйте репозиторий:
    ```bash
    git clone https://github.com/Krd2024/_QnA_.git
-2. Создание виртуального окружения
+2.Создание виртуального окружения
 ```bash
    python -m venv venv
 ```
@@ -46,11 +46,14 @@
 ```bash
    venv\Scripts\activate
 ```
-4. Установка зависимостей проекта
+4.Установка зависимостей проекта
 ```bash
    pip install -r requirements.txt
 ```
-
+5.Применение миграций базы данных
+```bash
+python manage.py migrate
+```
 Конфигурация
 Перед запуском приложения необходимо правильно настроить файл settings.py.
 
@@ -102,9 +105,10 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER")  # Получение настрое
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
+**Создать файл .env**
 Добавьте соответствующие значения в .env файл:
 
 EMAIL_HOST_USER=your_email@yandex.ru
-EMAIL_HOST_PASSWORD=your_password # Яндекс ID -> Безопасность -> Пароли приложений -> Почта
+EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
 DEFAULT_FROM_EMAIL=your_email@yandex.ru
 
