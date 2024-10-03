@@ -151,11 +151,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 static/img/
-# db.sqlite3
+db.sqlite3
 staticfiles
 main/apps.py
-copy111.py
-db copy.sqlite3
+
+
 decor/decorator.py
 redis_/db_redis.py
 static/profile/picture/9e90a446-2278-4d3a-a122-9c27be6c3fd2/file-1.jpg
