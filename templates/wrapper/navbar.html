@@ -63,14 +63,6 @@
     <li>
       <form class="loginForm" action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="username" value="Den" />
-        <input type="hidden" name="password" value="1" />
-        <button type="submit" class="user_form">User</button>
-      </form>
-    </li>
-    <li>
-      <form class="loginForm" action="{% url 'login' %}" method="post">
-        {% csrf_token %}
         <input type="hidden" name="username" value="peaceful_ocean" />
         <input type="hidden" name="password" value="1" />
         <button type="submit" class="user_form">peaceful_ocean</button>
@@ -82,6 +74,7 @@
   </ul>
 
   <a class="a" href="{% url 'all_users' %}"><span id="users">Пользователи</span></a>
+
   <a class="a" href="{% url 'tegs' %}"><span id="users">Все теги</span></a>
 
   {% comment %} <div>
@@ -105,12 +98,13 @@
       <hr />
       <a class="a" href="{% url 'logout' %}"><span>Выход</span></a>
     {% else %}
+      <hr />
       <a class="a" href="/signup/"><span>Регистрация</span></a>
-
-      <a class="a" href="/login_in/"><span>Вход</span></a>
+      <hr />
+      <a class="a" href="/login_in/"><br />Вход</a>
 
       <hr />
-      <a class="a" href="register/"><span>Регистрация без подтверждения почты</span></a>
+      <a class="a" href="register/">Регистрация <br />без подтверждения <br />почты</a>
     {% endif %}
     <hr />
   </div>

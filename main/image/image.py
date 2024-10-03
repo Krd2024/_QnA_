@@ -4,10 +4,14 @@ from main.models import User, Image
 
 from django.shortcuts import render
 
+from decouple import config
+from django.contrib import messages
 from ..forms import ImageForm
 
 import os
 import shutil
+
+EMAIL = config("EMAIL_HOST_USER")
 
 
 def delete_folder(folder_path):
@@ -42,25 +46,17 @@ def image_upload_view(request):
             img_obj = form.instance
             #
             print(form.cleaned_data["image"], "<<< ----------")
-            #
+
+            if form.cleaned_data["image"] is None:
+                messages.success(request, "Нет файла")
+                return render(request, "load_img.html", {"form": form})
             # =================================================================
             # import asyncio
             from my_email.send_mail import send_mail_
 
             message = form.cleaned_data["image"]
             # =================================================================
-            send_mail_("Фото", "polzovatel.krasnodar@bk.ru", message)
-            # ================================================================
-
-            # image_file = message.read()
-            # asyncio.run(send_mail_("Фото", "polzovatel.krasnodar@bk.ru", image_file))
-            # asyncio.run(send_mail_("Фото", "polzov.ya@yandex.ru", message))
-
-            # =================================================================
-            #
-            #
-            if form.cleaned_data["image"] is None:
-                return render(request, "load_img.html", {"form": form})
+            send_mail_("Фото", EMAIL, message)
 
             # Получить имя папки для удаления перед созданием новой (uuid)
             user_obj = User.objects.filter(username=request.user.username).first()
