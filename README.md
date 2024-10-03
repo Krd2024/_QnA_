@@ -68,10 +68,7 @@ SECRET_KEY = см. выше
 
 ```
 
-5.Применение миграций базы данных
-```bash
-python manage.py migrate
-```
+
 
 
 
