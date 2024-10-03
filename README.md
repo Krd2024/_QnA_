@@ -37,6 +37,18 @@
    ```bash
    git clone https://github.com/Krd2024/_QnA_.git
 ```
+2.Создание виртуального окружения
+```bash
+   python -m venv .venv
+```
+3.Активация виртуального окружения
+```bash
+   venv\Scripts\activate
+```
+4.Установка зависимостей проекта
+```bash
+   pip install -r requirements.txt
+```
 **Сгенерировать SECRET_KEY в Django**
 ```python
 django.core.management.utils import get_random_secret_key
@@ -56,18 +68,6 @@ SECRET_KEY = см. выше
 
 ```
 
-2.Создание виртуального окружения
-```bash
-   python -m venv .venv
-```
-3.Активация виртуального окружения
-```bash
-   venv\Scripts\activate
-```
-4.Установка зависимостей проекта
-```bash
-   pip install -r requirements.txt
-```
 5.Применение миграций базы данных
 ```bash
 python manage.py migrate
