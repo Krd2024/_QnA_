@@ -30,7 +30,18 @@
 - **Подписаться/Отписаться от тега** — возможность подписаться на интересующие теги или отписаться от них.
 
 # Технические детали:
-  
+
+**Сосдать файл .env**
+Добавьте соответствующие значения в .env файл:
+```python
+EMAIL_HOST_USER=your_email@yandex.ru
+EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
+DEFAULT_FROM_EMAIL=your_email@yandex.ru
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 0
+```
 ## Установка
 
 1.Склонируйте репозиторий:
@@ -54,16 +65,5 @@
 python manage.py migrate
 ```
 
-**Подключение приложений**
 
-Сосдать файл .env
-Добавьте соответствующие значения в .env файл:
-```python
-EMAIL_HOST_USER=your_email@yandex.ru
-EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
-DEFAULT_FROM_EMAIL=your_email@yandex.ru
 
-REDIS_HOST = '127.0.0.1'
-REDIS_PORT = 6379
-REDIS_DB = 0
-```
