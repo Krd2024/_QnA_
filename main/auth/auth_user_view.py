@@ -1,10 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
-
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
-
-from ..forms import UserRegisterForm
-
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
@@ -12,8 +9,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.conf import settings
-from ..forms import UserRegisterForm
+
 from main.models import User
+from ..forms import UserRegisterForm
 
 
 def signup(request):
@@ -44,11 +42,6 @@ def signup(request):
 
 def account_activation_sent(request):
     return render(request, "email/account_activation_sent.html")
-
-
-# views.py (добавьте эти функции)
-
-from django.contrib.auth import login
 
 
 def activate(request, uidb64, token):

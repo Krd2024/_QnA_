@@ -2,13 +2,13 @@ from django import views
 from django.urls import path
 
 from main.auth import auth_user_view
+from main.auth.auth_not_email import login_view, logoutPage, register_view
 import qna
 from . import views_1
 from .auth import auth_user_view
 from main import views_1
 from main.views import questions, user
 from main.views.get_employees_views import get_employ
-from . import rrr
 from main.image import image
 from django.conf.urls import handler404, handler400
 
@@ -19,12 +19,6 @@ from django.conf.urls import handler404, handler400
 urlpatterns = [
     #  ----------------------- API Methods -----------------------
     path("get_quest_10/", views_1.ItemList.as_view(), name="item-list"),
-    #
-    # path(
-    #     "test/",
-    #     rrr.test2,
-    # ),
-    # path("get/employees/", get_employ, name="employees"),
     #
     path("", views_1.index, name="index"),
     path("page/<int:num>", views_1.index, name="index"),
@@ -91,6 +85,10 @@ urlpatterns = [
         "tegs/<str:tags>/questions/", views_1.questions_in_tag, name="questions_in_tag"
     ),
     path("tegs/add/", views_1.add_tag, name="add_tag"),
+    #
+    path("login_/", login_view, name="login_"),
+    path("register/", register_view, name="register"),
+    path("logoutPage/", logoutPage, name="logoutPage"),
 ]
 # if settings.DEBUG:
 #     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
