@@ -43,7 +43,7 @@
 ```
 3.Активация виртуального окружения
 ```bash
-   venv\Scripts\activate
+   .venv\Scripts\activate
 ```
 4.Установка зависимостей проекта
 ```bash
