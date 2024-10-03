@@ -29,9 +29,7 @@
 - **Количество подписчиков тега** — отображается, сколько пользователей подписаны на этот тег.
 - **Подписаться/Отписаться от тега** — возможность подписаться на интересующие теги или отписаться от них.
 
-## Технические детали
-
-- **База данных**: В приложении зарегистрировано около 1700 пользователей, создано 3000 вопросов и 10000 ответов.
+# Технические детали:
   
 ## Установка
 
@@ -66,24 +64,28 @@ INSTALLED_APPS = [
     "debug_toolbar",  # Инструменты отладки в режиме разработки
     "rest_framework",  # Django REST Framework для создания API
 ]
-
+```
 Middleware
 Для отслеживания времени выполнения запросов и отладки в режиме разработки, добавьте следующие промежуточные слои (middleware):
+```python
 MIDDLEWARE = [
     "qna.middleware.RenderTimeMiddleware",  # Показывает время выполнения каждого запроса
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # Отладочные инструменты
 ]
+```
 Кэширование
 Для работы с кэшированием в приложении используется Redis. Убедитесь, что Redis установлен и запущен на локальном сервере. Настройка кэша выглядит следующим образом:
-
+```python
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",  # Локальный Redis сервер
     },
 }
+```
 Шаблоны
 Добавьте процессор контекста для работы с уведомлениями в настройку TEMPLATES:
+```python
 TEMPLATES = [
     {
         # Другие параметры
@@ -95,20 +97,21 @@ TEMPLATES = [
         },
     },
 ]
+```
 Настройки для отправки писем
 Для отправки уведомлений по электронной почте используется SMTP-сервер Yandex. Введите следующие параметры в settings.py:
-
+```python
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")  # Получение настроек через переменные окружения
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
-
-**Создать файл .env**
+```
+Сосдать файл .env
 Добавьте соответствующие значения в .env файл:
-
+```python
 EMAIL_HOST_USER=your_email@yandex.ru
 EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
 DEFAULT_FROM_EMAIL=your_email@yandex.ru
-
+```
