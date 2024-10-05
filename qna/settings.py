@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY")
 # DEBUG = False
 DEBUG = True
 if DEBUG:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ["127.0.0.1"]
 else:
     ALLOWED_HOSTS = []
 ...
@@ -89,7 +89,15 @@ CACHES = {
     },
 }
 
-
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://redis:6379/1",  # Здесь 'redis' — это имя сервиса в docker-compose.yml
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     },
+# }
 ROOT_URLCONF = "qna.urls"
 
 TEMPLATES = [
