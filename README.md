@@ -58,6 +58,7 @@ print(get_random_secret_key())
 **Сосдать файл .env**
 Добавьте соответствующие значения в .env файл:
 ```python
+# Добавлена возможность регистрации без почты, в этом случае значения переменных остаются без изменений
 EMAIL_HOST_USER=your_email@yandex.ru
 EMAIL_HOST_PASSWORD=your_password # Зайти в свой Яндекс ID -> Безопасность -> Пароли приложений -> Почта -> прописать пароль для сторонних пиложений
 DEFAULT_FROM_EMAIL=your_email@yandex.ru
