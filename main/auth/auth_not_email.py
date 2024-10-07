@@ -7,6 +7,8 @@ from main.models import User
 
 
 def login_view(request):
+    """Аутентификация"""
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -28,6 +30,8 @@ def login_view(request):
 
 
 def register_view(request):
+    """Регистрация"""
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -46,5 +50,7 @@ def register_view(request):
 
 
 def logoutPage(request):
+    """Выход"""
+
     logout(request)
     return redirect("/")

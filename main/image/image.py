@@ -49,27 +49,31 @@ def image_upload_view(request):
                 messages.success(request, "Нет файла")
                 return render(request, "load_img.html", {"form": form})
             # =================================================================
-            # import asyncio
 
-            # Получить имя папки для удаления перед созданием новой (uuid)
+            # Получить имя папки для удаления
+            # перед созданием новой (uuid)
+
             user_obj = User.objects.filter(username=request.user.username).first()
             dir_uuid = user_obj.image_url
-            print(dir_uuid, "<<<<<< ---------- user_obj")
 
+            # Если нет папки,то создать новую
             if dir_uuid == "":
                 save_image_url_user(img_obj.image)
                 return redirect("user_profile", request.user.username)
 
+            # Если есть папка,получить полный путь
             folder_path = f"static/profile/picture/{dir_uuid}"
             delete_folder(folder_path)
 
             save_image_url_user(img_obj.image)
+
+            # При отсутствии настроек почты
             try:
                 message = form.cleaned_data["image"]
                 send_mail_("Фото", EMAIL, message)
-            except Exception:
-                return redirect("user_profile", request.user.username)
-            #
+            except:
+                ...
+
         return redirect("user_profile", request.user.username)
     else:
         form = ImageForm()
