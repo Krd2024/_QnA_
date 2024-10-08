@@ -5,7 +5,6 @@ import redis
 from .models import Question
 
 print(" -- signals.py is loaded -- ")
-
 # def clear_question_cache():
 #     import redis
 

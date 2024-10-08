@@ -7,5 +7,7 @@ def latest_notific(request):
             recipient=request.user, is_read=False
         )
         return {"latest_notific": latest_notific}
-    except:
+    except Exception as e:
+        print("Error", e)
+
         return {"latest_notific": "Войдите"}
