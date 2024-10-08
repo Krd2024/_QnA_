@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.shortcuts import render
 from django.contrib import messages
 from decouple import config
 import shutil
@@ -71,8 +70,9 @@ def image_upload_view(request):
             try:
                 message = form.cleaned_data["image"]
                 send_mail_("Фото", EMAIL, message)
-            except:
-                ...
+            except Exception as e:
+                print(f"Произошла ошибка: {e}")
+                pass
 
         return redirect("user_profile", request.user.username)
     else:

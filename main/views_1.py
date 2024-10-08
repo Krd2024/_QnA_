@@ -1,21 +1,18 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, OuterRef, Subquery
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from main.serializator import ItemSerializer
 from rest_framework import generics
-from django.contrib import messages
-from django.db.models import Count
 from bs4 import BeautifulSoup
-from datetime import datetime
 import requests
-import shutil
-import random
+import uuid
 import math
 import time
 import os
 
-from .forms import ProfileEditForm, QForm, UserRegisterForm
+from .forms import ProfileEditForm
 import main.settings
 from main.models import (
     Notification,
@@ -25,7 +22,6 @@ from main.models import (
     Subscription,
     Teg,
     User,
-    Image,
 )
 
 
@@ -43,9 +39,9 @@ class ItemList(generics.ListCreateAPIView):
 #     serializer_class = ItemSerializer
 
 
-def redirect_to_home(request, exception=None):
-    print("Redirecting to")
-    redirect("index")
+# def redirect_to_home(request, exception=None):
+#     print("Redirecting to")
+#     redirect("index")
 
 
 def add_tag(request):
@@ -218,6 +214,7 @@ def pars_up(request, **kwargs):
             url = "http://habr.com/ru/news/"
             page = requests.get(url)
             if page.status_code != 200:
+
                 return False
             soup = BeautifulSoup(page.text, "html.parser")
             allNewsIt = soup.findAll("article", class_="tm-articles-list__item")
@@ -278,7 +275,6 @@ def edit_profile(request, **kwargs):
 
 # =================================================================
 #                 НЕ ИСПОЛЬЗУЕТСЯ
-import uuid
 
 
 def generate_filename(instance, filename):
@@ -290,7 +286,6 @@ def generate_filename(instance, filename):
     return os.path.join("static", "profile", "picture", new_filename)
 
 
-# =================================================================
 def all_users(request, **kwargs):
     """Показать всех пользователей"""
 
@@ -336,7 +331,8 @@ def all_users(request, **kwargs):
             page = int(page)
             if page < 2:
                 raise ValueError()
-        except:
+        except Exception as e:
+            print(e)
             return redirect("all_users")
     else:
         page = 1
@@ -367,7 +363,7 @@ def all_users(request, **kwargs):
         if end - start < 10:
             if start == 1:
                 end = 11
-            elif e == num_pages + 1:
+            elif end == num_pages + 1:
                 end = num_pages - 9
     if page > 5:
         page_range = range(page - 5, min(page + 5, paginator.num_pages + 1))
@@ -442,7 +438,7 @@ def correct(request, **kwargs):
         new_correct.correct = True
         new_correct.save()
 
-    return JsonResponse({"success": True, "a": f"good-answer"})
+    return JsonResponse({"success": True, "a": "good-answer"})
 
 
 # ======================================================
@@ -471,7 +467,6 @@ def search(request, **kwargs):
         search = kwargs["search"]
         # print(search, "<<<<<<<<<<<<<<<<<<<<<<")
         question = Question.objects.all()
-        tegs = Teg.objects.all()
         title_question = {}
 
         for title in question:
@@ -480,16 +475,13 @@ def search(request, **kwargs):
         for key, val in title_question.items():
             if search in val:
                 sentence = " ".join(val)
-                # print(sentence)
+                print(sentence)
                 return HttpResponse(key)
         return HttpResponse()
 
     except Exception as e:
         print(e, "<<<< ------------- E --- def search()")
     return render(request, "question.html")
-
-
-from django.core.exceptions import ObjectDoesNotExist
 
 
 def increase_counter(request, **kwargs):
@@ -510,9 +502,9 @@ def increase_counter(request, **kwargs):
                 proverka.delete()
                 reac_count = answer.rection_set.count()
                 # удалить уведомление
-                print(request.user)
-                print(answer.autor)
-                print(answer.id)
+                # print(request.user)
+                # print(answer.autor)
+                # print(answer.id)
 
                 x = Notification.objects.filter(
                     sender=request.user,
@@ -605,7 +597,8 @@ def index(request, **kwargs):
                 page = int(page)
                 if page < 2:
                     raise ValueError()
-            except:
+            except Exception as e:
+                print(e)
                 return redirect("all_users")
         else:
             page = 1

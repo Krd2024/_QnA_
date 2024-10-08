@@ -1,17 +1,21 @@
 from main.auth.auth_not_email import login_view, logoutPage, register_view
-from django.conf.urls import handler404, handler400
 from django.urls import path
-from django import views
 
-from main.views.get_employees_views import get_employ
 from main.views import questions, user
 from main.auth import auth_user_view
-from .auth import auth_user_view
+
 from main.image import image
+
+# from django.conf.urls import handler404, handler400
 from main import views_1
-import qna
 
+# handler404 = views_1.redirect_to_home
+# handler400 = views_1.redirect_to_home
 
+# from django import views
+# from main.views.get_employees_views import get_employ
+# from .auth import auth_user_view
+# import qna
 # from main.user_profile import user_profile_up
 # from main.user_profile_update import user_profile_up
 
@@ -93,5 +97,3 @@ urlpatterns = [
 #     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # terminal.integrated.fontSize
-handler404 = views_1.redirect_to_home
-handler400 = views_1.redirect_to_home
