@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -23,7 +23,8 @@ def login_view(request):
                     request, messages.INFO, "НЕПРАВИЛЬНОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ ИЛИ ПАРОЛЬ"
                 )
                 return redirect("login")
-        except:
+        except Exception as e:
+            print(e)
             messages.add_message(request, messages.INFO, "ОШИБКА!")
             return redirect("login_")
     return render(request, "register_views/login.html")
@@ -42,7 +43,9 @@ def register_view(request):
             user.save()
             # return redirect("register")
             return redirect("login_")
-        except:
+        except Exception as e:
+            print(e)
+
             messages.add_message(request, messages.INFO, "ОШИБКА!")
             return redirect("register")
 

@@ -1,13 +1,12 @@
 from main.auth.auth_not_email import login_view, logoutPage, register_view
-from django.urls import path
-
 from main.views import questions, user
 from main.auth import auth_user_view
-
+from django.urls import path
 from main.image import image
 
-# from django.conf.urls import handler404, handler400
 from main import views_1
+
+# from django.conf.urls import handler404, handler400
 
 # handler404 = views_1.redirect_to_home
 # handler400 = views_1.redirect_to_home
