@@ -1,7 +1,7 @@
 
 [![Lint](https://github.com/Krd2024/_QnA_/actions/workflows/lint.yml/badge.svg)](https://github.com/Krd2024/_QnA_/actions/workflows/lint.yml)
 ![Python Versions](https://img.shields.io/pypi/pyversions/Django.svg)
-![GPL](https://www.gnu.org/graphics/gplv3-127x51.png)
+![GPL](https://www.gnu.org/graphics/gplv3-90x31.png)
 
 # Приложение Вопрос-Ответ 
 
