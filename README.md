@@ -74,6 +74,10 @@ REDIS_DB = 0
 SECRET_KEY = см. выше
 
 ```
+5.Запуск
+```bash
+   python manage.py runserver
+```
 
 
 
