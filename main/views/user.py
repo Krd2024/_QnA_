@@ -1,24 +1,14 @@
-import math
-from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from main.models import (
     Notification,
     Question,
     Answer,
-    Rection,
-    Subscription,
-    Teg,
     User,
-    Image,
 )
 from main.forms import ProfileEditForm
 from django.db.models import Count
-from django.shortcuts import render
-
-
-# =================================================================
-
-from django.shortcuts import render, redirect
 
 
 def get_notification(request, **kwargs):
@@ -92,9 +82,7 @@ def user_profile(request, *args, **kwargs):
             print(e, "<<< ----------- e --- def user_profile()")
             return render(render, "user__answers.html", {"out": "Нет ответ"})
     # ----------------------------------------------------------------
-
-    correct_answer = Answer.objects.filter(autor=objects_user, correct=True).count()
-
+    # correct_answer = Answer.objects.filter(autor=objects_user, correct=True).count()
     # ----------------------------------------------------------------
     answers_1 = (
         Answer.objects.all().values("question_id").annotate(total=Count("question_id"))
@@ -143,9 +131,6 @@ def edit_profile(request, **kwargs):
     return render(request, "editProfile.html", {"form": form})
 
 
-from django.contrib import messages
-
-
 def answer_update_delete(request, **kwargs):
     """Редактировать,удалить ответ"""
 
@@ -168,7 +153,7 @@ def answer_update_delete(request, **kwargs):
             answer_obj = Answer.objects.get(id=answer_id)
 
             try:
-                obj = Notification.objects.filter(
+                Notification.objects.filter(
                     related_object_id=answer_obj.id,
                 ).delete()
 

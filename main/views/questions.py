@@ -1,25 +1,15 @@
-import math
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
 from main.models import Notification, Question, Answer, Teg, User
-from main.forms import ProfileEditForm, QForm, UserRegisterForm
-from django.db.models import Count
+from main.forms import QForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.contrib import messages
+
 
 import time
 from datetime import datetime
 import main.settings
-from django.contrib import messages
 
 # =================================================================
-
-from django.shortcuts import render, redirect
-
-from bs4 import BeautifulSoup
-import requests
 
 
 @login_required(login_url="/login_in")
@@ -118,8 +108,8 @@ def question(request, **kwargs):
                     notification_type="answer",
                     related_object_id=question_obj.id,
                 )
-            except:
-                ...
+            except Exception as e:
+                print(e)
 
             return redirect("question", kwargs["question_id"])
         # ---------------------------------------------
@@ -142,7 +132,7 @@ def update(request, **kwargs):
     if request.method == "POST":
         form = QForm(request.POST)
         if form.is_valid():
-            instance = form.save(commit=False)
+            form.save(commit=False)
             # for key, value in request.POST.items():
             #     print(f"Field: {key}, Value: {value}")
             question_id = kwargs["question_id"]
