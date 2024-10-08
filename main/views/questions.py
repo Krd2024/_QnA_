@@ -4,7 +4,6 @@ from main.forms import QForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-
 import time
 from datetime import datetime
 import main.settings
