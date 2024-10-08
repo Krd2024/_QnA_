@@ -1,6 +1,7 @@
-# My Project
 
 [![Lint](https://github.com/Krd2024/_QnA_/actions/workflows/lint.yml/badge.svg)](https://github.com/Krd2024/_QnA_/actions/workflows/lint.yml)
+![Python Versions](https://img.shields.io/pypi/pyversions/Django.svg)
+
 # Приложение Вопрос-Ответ 
 
 Приложение позволяет пользователям задавать вопросы, отвечать на них, взаимодействовать с контентом и профилями других пользователей. Примером для разработки послужил сайт QnA Хабр.
