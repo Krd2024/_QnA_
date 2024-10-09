@@ -55,12 +55,13 @@
 ```bash
    pip install -r requirements.txt
 ```
-**Сгенерировать SECRET_KEY в Django**
+5.**Сгенерировать SECRET_KEY в Django**
 ```python
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
 ```
-**Сосдать файл .env**
+6.**Создать файл .env**
+
 Добавьте соответствующие значения в .env файл:
 ```python
 # Добавлена возможность регистрации без почты, в этом случае значения переменных остаются без изменений
@@ -73,6 +74,10 @@ REDIS_PORT = 6379
 REDIS_DB = 0
 SECRET_KEY = см. выше
 
+```
+7.Запуск
+```bash
+   python manage.py runserver
 ```
 
 
